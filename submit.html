@@ -746,7 +746,7 @@
     <script src="config.js"></script>
     <script>
         // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let currentUser = null;
         const alertBox = document.getElementById('alertBox');
@@ -762,7 +762,7 @@
 
         // Check if user is logged in and pre-fill form
         async function checkUser() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             
             if (session) {
                 currentUser = session.user;
@@ -884,7 +884,7 @@
 
                     console.log('Uploading file to:', filePath); // Debug log
 
-                    const { error: uploadError } = await supabase.storage
+                    const { error: uploadError } = await supabaseClient.storage
                         .from('sermon-videos')
                         .upload(filePath, file);
 
