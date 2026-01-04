@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Your Sermon - PewToPost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C1810;
+            --accent: #C8964D;
+            --light: #F8F6F3;
+            --white: #FFFFFF;
+            --gray: #6B6B6B;
+            --soft-gold: #E8D4B8;
+            --success: #388E3C;
+            --error: #D32F2F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--primary);
+            background: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--white);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(44, 24, 16, 0.05);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(200, 150, 77, 0.3);
+        }
+
+        /* Submission Form Section */
+        .submission-form {
+            padding: 4rem 0 6rem;
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        .form-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .form-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .form-description {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .free-trial-banner {
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFE5B4 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .free-trial-banner a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .sermon-form {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--light);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(44, 24, 16, 0.08);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(44, 24, 16, 0.1);
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="url"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid rgba(44, 24, 16, 0.15);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 150, 77, 0.1);
+        }
+
+        .field-hint {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 1rem;
+            background: var(--white);
+            border: 2px solid rgba(44, 24, 16, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--accent);
+            background: #FFFBF5;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            margin-top: 2px;
+        }
+
+        .checkbox-option.rush-order {
+            grid-column: 1 / -1;
+            flex-direction: row;
+        }
+
+        .file-upload-area {
+            position: relative;
+            border: 2px dashed rgba(44, 24, 16, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            background: var(--white);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--accent);
+            background: #FFFBF5;
+        }
+
+        .file-upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            pointer-events: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-large {
+            padding: 1.25rem 3rem;
+            font-size: 1.2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-error {
+            background: #FFEBEE;
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .alert-success {
+            background: #E8F5E9;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-about h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-about p {
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sermon-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Pew<span>To</span>Post</a>
+            <ul>
+                <li><a href="index.html#mission">Mission</a></li>
+                <li><a href="index.html#why">Why Us</a></li>
+                <li><a href="index.html#values">Values</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="submit.html">Submit</a></li>
+                <li><a href="dashboard.html" class="btn btn-primary">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Submission Form Section -->
+    <section class="submission-form">
+        <div class="container">
+            <div class="form-header">
+                <h2 class="section-title">Submit Your Sermon Video</h2>
+                <p class="form-subtitle">🎉 FREE: Get 3 clips this month!</p>
+                <p class="form-description">Upload your video or drop a link. I'll turn it into platform-ready posts in your voice.</p>
+                <div class="free-trial-banner">
+                    <strong>Try PewToPost FREE:</strong> No signup required! You'll get 3 high-quality clips from your sermon. Want up to 48 clips monthly? <a href="index.html#pricing">See our plans →</a>
+                </div>
+            </div>
+
+            <div id="alertBox" class="alert"></div>
+
+            <form id="sermonForm" class="sermon-form">
+                <!-- Contact Information (Auto-filled for logged-in users) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Contact Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone (Optional)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+
+                <!-- Video Content -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Video Content</h3>
+                    <div class="form-group">
+                        <label>How would you like to provide your video? *</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="videoMethod" value="upload" checked>
+                                <span>Upload video file</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="videoMethod" value="link">
+                                <span>Share video link</span>
+                            </label>
+                        </div>
+                        <p class="field-hint">Accepted formats: MP4/MOV or a video link. Max upload: 200MB.</p>
+                    </div>
+
+                    <div class="form-group" id="uploadSection">
+                        <label for="videoFile">Upload Video File *</label>
+                        <div class="file-upload-area">
+                            <input type="file" id="videoFile" name="videoFile" accept="video/mp4,video/quicktime">
+                            <div class="file-upload-label">
+                                <span class="upload-icon">📁</span>
+                                <span class="upload-text">Click to upload or drag and drop</span>
+                                <span class="upload-hint">MP4, MOV up to 200MB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="linkSection" style="display: none;">
+                        <label for="videoLink">Video Link *</label>
+                        <input type="url" id="videoLink" name="videoLink" placeholder="https://youtube.com/watch?v=...">
+                    </div>
+                </div>
+
+                <!-- Content Details -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Content Details</h3>
+                    <div class="form-group">
+                        <label for="scripture">Scripture References</label>
+                        <input type="text" id="scripture" name="scripture" placeholder="e.g., John 3:16, Romans 8:28">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes / Desired Angle</label>
+                        <textarea id="notes" name="notes" rows="4" placeholder="Share any specific angles, themes, or highlights you'd like us to focus on..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Target Platforms -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Target Platforms *</h3>
+                    <div class="checkbox-grid" id="platformsGrid">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="tiktok" checked>
+                            <span>TikTok</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="instagram-reels" checked>
+                            <span>Instagram Reels</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="youtube-shorts" checked>
+                            <span>YouTube Shorts</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="twitter">
+                            <span>X/Twitter</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="instagram-carousel">
+                            <span>Instagram Carousel</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="linkedin">
+                            <span>LinkedIn</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="platforms" value="facebook">
+                            <span>Facebook</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Deliverables -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Deliverables *</h3>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="deliverables" value="captions" checked>
+                            <span>Captions</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="deliverables" value="carousels">
+                            <span>Carousels (copy only)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="deliverables" value="hooks" checked>
+                            <span>Hook lines</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="deliverables" value="hashtags" checked>
+                            <span>Hashtag sets</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="deliverables" value="cta">
+                            <span>CTA lines</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Voice & Style -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Voice & Style</h3>
+                    <div class="form-group">
+                        <label for="voiceStyle">Voice/Style *</label>
+                        <select id="voiceStyle" name="voiceStyle" required>
+                            <option value="">Select your preferred style</option>
+                            <option value="pastoral">Pastoral</option>
+                            <option value="apologetics">Apologetics</option>
+                            <option value="testimony">Testimony-story</option>
+                            <option value="teaching">Teaching</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Additional Options -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Additional Options</h3>
+                    <label class="checkbox-option rush-order">
+                        <input type="checkbox" name="rushOrder" value="yes">
+                        <span>
+                            <strong>Rush Order</strong><br>
+                            <small>Standard turnaround: 3-4 business days. Rush orders may incur additional fees.</small>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Permissions & Consent -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Permissions & Consent</h3>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="contentRights" required>
+                        <span><strong>Content Rights *</strong><br>I have the rights to use and share this content for social media purposes.</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="consent" required>
+                        <span><strong>Consent to Contact</strong><br>I consent to being contacted about my submission and future services.</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-submit">
+                    <button type="submit" class="btn btn-primary btn-large" id="submitBtn">Submit Your Video</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>PewToPost</h3>
+                    <p>Transforming sermons into social impact. We help churches amplify their message and reach souls far beyond the sanctuary walls.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html#mission">About Us</a></li>
+                        <li><a href="index.html#why">Our Services</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="submit.html">Submit Sermon</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Copyright</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PewToPost. All rights reserved. Transforming sermons into social impact.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let currentUser = null;
+        const alertBox = document.getElementById('alertBox');
+
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type} show`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                alertBox.classList.remove('show');
+            }, 5000);
+        }
+
+        // Check if user is logged in and pre-fill form
+        async function checkUser() {
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                currentUser = session.user;
+                
+                // Fetch user profile
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (data) {
+                    document.getElementById('fullName').value = `${data.first_name} ${data.last_name}`;
+                    document.getElementById('email').value = data.email;
+                }
+            }
+        }
+
+        // Form functionality
+        const videoMethodRadios = document.querySelectorAll('input[name="videoMethod"]');
+        const uploadSection = document.getElementById('uploadSection');
+        const linkSection = document.getElementById('linkSection');
+        const videoFileInput = document.getElementById('videoFile');
+        const videoLinkInput = document.getElementById('videoLink');
+
+        // Toggle between upload and link sections - FIXED VERSION
+        videoMethodRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                console.log('Radio changed to:', this.value); // Debug log
+                
+                if (this.value === 'upload') {
+                    uploadSection.style.display = 'block';
+                    linkSection.style.display = 'none';
+                    videoFileInput.required = true;
+                    videoLinkInput.required = false;
+                    videoLinkInput.value = ''; // Clear link field
+                } else if (this.value === 'link') {
+                    uploadSection.style.display = 'none';
+                    linkSection.style.display = 'block';
+                    videoFileInput.required = false;
+                    videoLinkInput.required = true;
+                    // Clear file input
+                    videoFileInput.value = '';
+                    const uploadText = document.querySelector('.upload-text');
+                    if (uploadText) {
+                        uploadText.textContent = 'Click to upload or drag and drop';
+                        uploadText.style.color = '';
+                    }
+                }
+            });
+        });
+
+        // File upload visual feedback
+        videoFileInput.addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            if (fileName) {
+                const uploadText = document.querySelector('.upload-text');
+                uploadText.textContent = `Selected: ${fileName}`;
+                uploadText.style.color = 'var(--accent)';
+            }
+        });
+
+        // Form submission handler - FIXED VERSION
+        const sermonForm = document.getElementById('sermonForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        sermonForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate at least one platform is selected
+            const platforms = Array.from(document.querySelectorAll('input[name="platforms"]:checked')).map(cb => cb.value);
+            if (platforms.length === 0) {
+                showAlert('Please select at least one target platform.', 'error');
+                return;
+            }
+
+            // Validate at least one deliverable is selected
+            const deliverables = Array.from(document.querySelectorAll('input[name="deliverables"]:checked')).map(cb => cb.value);
+            if (deliverables.length === 0) {
+                showAlert('Please select at least one deliverable.', 'error');
+                return;
+            }
+
+            // Get the selected video method
+            const videoMethod = document.querySelector('input[name="videoMethod"]:checked').value;
+            console.log('Submitting with method:', videoMethod); // Debug log
+            
+            // Validate based on selected method
+            if (videoMethod === 'upload') {
+                if (!videoFileInput.files || videoFileInput.files.length === 0) {
+                    showAlert('Please upload a video file.', 'error');
+                    return;
+                }
+            } else if (videoMethod === 'link') {
+                if (!videoLinkInput.value || videoLinkInput.value.trim() === '') {
+                    showAlert('Please provide a video link.', 'error');
+                    return;
+                }
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                let videoPath = null;
+
+                // Handle based on selected method
+                if (videoMethod === 'upload' && videoFileInput.files && videoFileInput.files[0]) {
+                    const file = videoFileInput.files[0];
+                    
+                    // Check file size (200MB max)
+                    if (file.size > 200 * 1024 * 1024) {
+                        throw new Error('File size exceeds 200MB limit');
+                    }
+                    
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+                    const filePath = `${currentUser?.id || 'guest'}/${fileName}`;
+
+                    console.log('Uploading file to:', filePath); // Debug log
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('sermon-videos')
+                        .upload(filePath, file);
+
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        throw uploadError;
+                    }
+                    
+                    videoPath = filePath;
+                    console.log('File uploaded successfully'); // Debug log
+                } else if (videoMethod === 'link') {
+                    videoPath = videoLinkInput.value.trim();
+                    console.log('Using video link:', videoPath); // Debug log
+                }
+
+                // Create submission record
+                const submissionData = {
+                    user_id: currentUser?.id || null,
+                    full_name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value || null,
+                    video_method: videoMethod,
+                    video_path: videoPath,
+                    scripture_references: document.getElementById('scripture').value || null,
+                    notes: document.getElementById('notes').value || null,
+                    target_platforms: platforms,
+                    deliverables: deliverables,
+                    voice_style: document.getElementById('voiceStyle').value,
+                    rush_order: document.querySelector('input[name="rushOrder"]').checked,
+                    status: 'pending'
+                };
+
+                console.log('Submitting data:', submissionData); // Debug log
+
+                const { error: insertError } = await supabase
+                    .from('submissions')
+                    .insert([submissionData]);
+
+                if (insertError) {
+                    console.error('Insert error:', insertError);
+                    throw insertError;
+                }
+
+                showAlert('Submission successful! We\'ll process your sermon and get back to you within 48 hours.', 'success');
+                
+                // Reset form after 2 seconds
+                setTimeout(() => {
+                    sermonForm.reset();
+                    // Reset the upload text
+                    const uploadText = document.querySelector('.upload-text');
+                    if (uploadText) {
+                        uploadText.textContent = 'Click to upload or drag and drop';
+                        uploadText.style.color = '';
+                    }
+                    
+                    // Reset to upload method by default
+                    uploadSection.style.display = 'block';
+                    linkSection.style.display = 'none';
+                    videoFileInput.required = true;
+                    videoLinkInput.required = false;
+                    
+                    if (currentUser) {
+                        window.location.href = 'dashboard.html';
+                    }
+                }, 2000);
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                showAlert(error.message || 'An error occurred. Please try again or contact support.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Your Video';
+            }
+        });
+
+        // Initialize on page load
+        checkUser();
+
+        // Initialize the correct state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkedRadio = document.querySelector('input[name="videoMethod"]:checked');
+            if (checkedRadio && checkedRadio.value === 'link') {
+                uploadSection.style.display = 'none';
+                linkSection.style.display = 'block';
+                videoFileInput.required = false;
+                videoLinkInput.required = true;
+            }
+        });
+    </script>
+</body>
+</html>
