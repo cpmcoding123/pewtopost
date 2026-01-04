@@ -1043,14 +1043,6 @@
         // Initialize Stripe with your publishable key
         const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
-        // Stripe Price IDs for each plan
-        // IMPORTANT: Replace these with your actual Price IDs from dashboard.stripe.com/products
-        const STRIPE_PRICE_IDS = {
-            basic: 'price_REPLACE_WITH_BASIC_PRICE_ID',   // Get from Stripe Dashboard
-            pro: 'price_REPLACE_WITH_PRO_PRICE_ID',       // Get from Stripe Dashboard
-            plus: 'price_REPLACE_WITH_PLUS_PRICE_ID'      // Get from Stripe Dashboard
-        };
-
         // Function to start Stripe Checkout
         async function startCheckout(plan) {
             const priceId = STRIPE_PRICE_IDS[plan];
