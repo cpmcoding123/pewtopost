@@ -11,7 +11,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SlsKvFIhF6kUxAQGwEai7DjnCsJgmacHpt3GjGUBekhS8XUp1qaKGAuXINwoDxK8O81QIX0uEl156Jf1VfjkvTU000buauQeR';
 
 // Stripe Price IDs
-const STRIPE_PRICES = {
+const STRIPE_PRICE_IDS = {
     basic: 'price_1SlsNKFIhF6kUxAQgLYnhUlw', // Basic Plan Price ID
     pro: 'price_1SlsPBFIhF6kUxAQMYNHrCCB',   // Pro Plan Price ID
     plus: 'price_1SlsPyFIhF6kUxAQLFZH1SMe'   // Plus Plan Price ID
