@@ -746,7 +746,7 @@
     <script src="config.js"></script>
     <script>
         // Initialize Supabase client
-        const supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let currentUser = null;
         const alertBox = document.getElementById('alertBox');
