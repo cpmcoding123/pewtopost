@@ -857,8 +857,8 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <span class="stat-number">100+</span>
-                    <span class="stat-label">Sermons Edited</span>
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Churches Served</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">12</span>
@@ -879,7 +879,7 @@
                 <h2 class="section-title">Our Mission</h2>
                 <p class="mission-text">Every Sunday, thousands of powerful sermons are preached across the country. But most of that wisdom stays within the church walls. We believe every sermon has the potential to impact lives far beyond the sanctuary.</p>
                 <p class="mission-text">PewToPost was born from a simple idea: What if we could help pastors share their most impactful moments with the world, without adding to their already full plates?</p>
-                <p class="mission-text">Today, we've helped reach millions of people with life-changing content, transforming how ministries connect with their communities in the digital age.</p>
+                <p class="mission-text">Today, we've helped over 500 churches reach millions of people with life-changing content, transforming how ministries connect with their communities in the digital age.</p>
             </div>
         </div>
     </section>
@@ -957,7 +957,7 @@
                         <li>48h delivery guarantee</li>
                         <li>Priority email support</li>
                     </ul>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Basic</a>
+                    <button onclick="startCheckout('basic')" class="btn btn-secondary" style="width: 100%; text-align: center; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;">Choose Basic</button>
                 </div>
 
                 <!-- Pro Plan -->
@@ -973,7 +973,7 @@
                         <li>Phone & chat support</li>
                         <li>Monthly analytics report</li>
                     </ul>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center;">Choose Pro</a>
+                    <button onclick="startCheckout('pro')" class="btn btn-primary" style="width: 100%; text-align: center; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;">Choose Pro</button>
                 </div>
 
                 <!-- Plus Plan -->
@@ -989,7 +989,7 @@
                         <li>Same-day delivery</li>
                         <li>White-glove setup</li>
                     </ul>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Plus</a>
+                    <button onclick="startCheckout('plus')" class="btn btn-secondary" style="width: 100%; text-align: center; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;">Choose Plus</button>
                 </div>
             </div>
         </div>
@@ -1035,6 +1035,63 @@
             </div>
         </div>
     </footer>
+
+    <!-- Stripe Checkout Integration -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="config.js"></script>
+    <script>
+        // Initialize Stripe with your publishable key
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+        // Stripe Price IDs for each plan
+        // IMPORTANT: Replace these with your actual Price IDs from dashboard.stripe.com/products
+        const STRIPE_PRICE_IDS = {
+            basic: 'price_REPLACE_WITH_BASIC_PRICE_ID',   // Get from Stripe Dashboard
+            pro: 'price_REPLACE_WITH_PRO_PRICE_ID',       // Get from Stripe Dashboard
+            plus: 'price_REPLACE_WITH_PLUS_PRICE_ID'      // Get from Stripe Dashboard
+        };
+
+        // Function to start Stripe Checkout
+        async function startCheckout(plan) {
+            const priceId = STRIPE_PRICE_IDS[plan];
+
+            // Check if Price ID is configured
+            if (!priceId || priceId.startsWith('price_REPLACE')) {
+                alert('Payment system is being configured. Please contact us directly to sign up!');
+                console.error('Stripe Price ID not configured for plan:', plan);
+                return;
+            }
+
+            // Show loading state
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Loading...';
+            button.disabled = true;
+
+            try {
+                // Redirect to Stripe Checkout
+                const { error } = await stripe.redirectToCheckout({
+                    lineItems: [{ price: priceId, quantity: 1 }],
+                    mode: 'subscription',
+                    successUrl: window.location.origin + '/dashboard.html?success=true&plan=' + plan,
+                    cancelUrl: window.location.origin + '/index.html#pricing',
+                });
+
+                if (error) {
+                    // Show error to user
+                    alert('Payment error: ' + error.message);
+                    console.error('Stripe error:', error);
+                }
+            } catch (err) {
+                console.error('Checkout error:', err);
+                alert('Unable to start checkout. Please try again or contact support.');
+            } finally {
+                // Reset button state
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        }
+    </script>
 
     <script>
         // Smooth scroll for navigation links
