@@ -1045,10 +1045,17 @@
 
         // Function to start Stripe Checkout
         async function startCheckout(plan) {
+            // Check if STRIPE_PRICE_IDS is defined in config.js
+            if (typeof STRIPE_PRICE_IDS === 'undefined') {
+                alert('Payment configuration missing. Please contact support.');
+                console.error('STRIPE_PRICE_IDS not found in config.js');
+                return;
+            }
+
             const priceId = STRIPE_PRICE_IDS[plan];
 
             // Check if Price ID is configured
-            if (!priceId || priceId.startsWith('price_REPLACE')) {
+            if (!priceId || priceId.startsWith('price_REPLACE') || priceId === 'price_YOUR') {
                 alert('Payment system is being configured. Please contact us directly to sign up!');
                 console.error('Stripe Price ID not configured for plan:', plan);
                 return;
@@ -1117,72 +1124,6 @@
 
         document.querySelectorAll('.feature-card, .value-card, .pricing-card, .stat-item').forEach(el => {
             observer.observe(el);
-        });
-
-        // Form functionality
-        const videoMethodRadios = document.querySelectorAll('input[name="videoMethod"]');
-        const uploadSection = document.getElementById('uploadSection');
-        const linkSection = document.getElementById('linkSection');
-        const videoFileInput = document.getElementById('videoFile');
-        const videoLinkInput = document.getElementById('videoLink');
-
-        // Toggle between upload and link sections
-        videoMethodRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'upload') {
-                    uploadSection.style.display = 'block';
-                    linkSection.style.display = 'none';
-                    videoFileInput.required = true;
-                    videoLinkInput.required = false;
-                } else {
-                    uploadSection.style.display = 'none';
-                    linkSection.style.display = 'block';
-                    videoFileInput.required = false;
-                    videoLinkInput.required = true;
-                }
-            });
-        });
-
-        // File upload visual feedback
-        videoFileInput.addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name;
-            if (fileName) {
-                const uploadText = document.querySelector('.upload-text');
-                uploadText.textContent = `Selected: ${fileName}`;
-                uploadText.style.color = 'var(--accent)';
-            }
-        });
-
-        // Form submission handler
-        const sermonForm = document.getElementById('sermonForm');
-        sermonForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate at least one platform is selected
-            const platforms = document.querySelectorAll('input[name="platforms"]:checked');
-            if (platforms.length === 0) {
-                alert('Please select at least one target platform.');
-                return;
-            }
-
-            // Validate at least one deliverable is selected
-            const deliverables = document.querySelectorAll('input[name="deliverables"]:checked');
-            if (deliverables.length === 0) {
-                alert('Please select at least one deliverable.');
-                return;
-            }
-
-            // Collect form data
-            const formData = new FormData(sermonForm);
-            
-            // In a real implementation, you would send this to your backend
-            // For now, we'll just show a success message
-            alert('Thank you for your submission! We\'ll process your sermon and get back to you within 48 hours with your free clips.');
-            
-            // Optional: Reset form
-            // sermonForm.reset();
-            
-            console.log('Form data collected:', Object.fromEntries(formData));
         });
     </script>
 </body>
