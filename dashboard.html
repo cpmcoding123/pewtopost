@@ -363,13 +363,13 @@
     <script src="config.js"></script>
     <script>
         // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let currentUser = null;
 
         // Check authentication
         async function checkAuth() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             
             if (!session) {
                 window.location.href = 'login.html';
@@ -384,7 +384,7 @@
         // Load user data
         async function loadUserData() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('profiles')
                     .select('*')
                     .eq('user_id', currentUser.id)
@@ -406,7 +406,7 @@
         // Load submissions
         async function loadSubmissions() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('submissions')
                     .select('*')
                     .eq('user_id', currentUser.id)
@@ -480,7 +480,7 @@
 
         // Logout function
         async function logout() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             window.location.href = 'login.html';
         }
 
