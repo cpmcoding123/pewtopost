@@ -13,8 +13,6 @@
             --white: #FFFFFF;
             --gray: #6B6B6B;
             --success: #388E3C;
-            --warning: #F57C00;
-            --info: #0288D1;
         }
 
         * {
@@ -38,7 +36,7 @@
         }
 
         nav {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -83,7 +81,7 @@
         }
 
         .btn {
-            padding: 0.625rem 1.5rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 6px;
             font-weight: 600;
             text-decoration: none;
@@ -99,20 +97,24 @@
             color: var(--white);
         }
 
+        .btn-primary:hover {
+            background: #B8854D;
+        }
+
         .btn-secondary {
             background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            border: 2px solid var(--accent);
+            color: var(--accent);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2);
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: var(--white);
         }
 
-        /* Main Dashboard */
+        /* Dashboard */
         .dashboard-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 3rem 2rem;
         }
@@ -129,10 +131,10 @@
 
         .welcome-section p {
             color: var(--gray);
-            font-size: 1.1rem;
+            font-size: 1.125rem;
         }
 
-        /* Stats Cards */
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -144,54 +146,31 @@
             background: var(--white);
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(44, 24, 16, 0.05);
+            box-shadow: 0 2px 8px rgba(44, 24, 16, 0.08);
         }
 
         .stat-card h3 {
-            color: var(--gray);
             font-size: 0.875rem;
             font-weight: 600;
+            color: var(--gray);
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
         }
 
-        .stat-card .stat-value {
+        .stat-value {
             font-family: 'Crimson Pro', serif;
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
         }
 
-        /* Subscription Status */
-        .subscription-banner {
-            background: linear-gradient(135deg, var(--accent) 0%, #D4A76A 100%);
-            color: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .subscription-banner h2 {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .subscription-banner .btn {
-            background: var(--white);
-            color: var(--accent);
-        }
-
-        /* Submissions Table */
+        /* Submissions Section */
         .submissions-section {
             background: var(--white);
-            border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 2px 10px rgba(44, 24, 16, 0.05);
-            margin-bottom: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(44, 24, 16, 0.08);
         }
 
         .section-header {
@@ -203,7 +182,7 @@
 
         .section-header h2 {
             font-family: 'Crimson Pro', serif;
-            font-size: 2rem;
+            font-size: 1.75rem;
         }
 
         .submissions-table {
@@ -219,15 +198,12 @@
             color: var(--gray);
             font-size: 0.875rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .submissions-table td {
-            padding: 1rem;
+            padding: 1.25rem 1rem;
             border-bottom: 1px solid var(--light);
-        }
-
-        .submissions-table tr:hover {
-            background: var(--light);
         }
 
         .status-badge {
@@ -236,16 +212,17 @@
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .status-pending {
             background: #FFF3E0;
-            color: var(--warning);
+            color: #F57C00;
         }
 
         .status-processing {
             background: #E3F2FD;
-            color: var(--info);
+            color: #0288D1;
         }
 
         .status-completed {
@@ -276,10 +253,10 @@
                 grid-template-columns: 1fr;
             }
 
-            .subscription-banner {
+            .section-header {
                 flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
+                gap: 1rem;
+                align-items: flex-start;
             }
 
             .submissions-table {
@@ -329,15 +306,6 @@
                 <h3>This Month</h3>
                 <div class="stat-value" id="monthSubmissions">0</div>
             </div>
-        </div>
-
-        <!-- Subscription Status -->
-        <div class="subscription-banner" id="subscriptionBanner">
-            <div>
-                <h2 id="planName">Free Trial</h2>
-                <p id="planDetails">You have 3 free clips remaining this month</p>
-            </div>
-            <a href="index.html#pricing" class="btn">Upgrade Plan</a>
         </div>
 
         <!-- Recent Submissions -->
@@ -393,9 +361,8 @@
                 if (error) {
                     console.error('Error loading profile:', error);
                     
-                    // If profile doesn't exist, create it from auth metadata
+                    // If profile doesn't exist, create a simple one
                     if (error.code === 'PGRST116') {
-                        console.log('Profile not found, creating one...');
                         const userMetadata = currentUser.user_metadata || {};
                         
                         const { data: newProfile, error: insertError } = await supabaseClient
@@ -405,106 +372,30 @@
                                 first_name: userMetadata.first_name || 'User',
                                 last_name: userMetadata.last_name || '',
                                 church_name: userMetadata.church_name || '',
-                                email: currentUser.email,
-                                subscription_plan: 'free'
+                                email: currentUser.email
                             }])
                             .select()
                             .single();
                         
-                        if (insertError) {
-                            console.error('Error creating profile:', insertError);
-                            // Use fallback data from auth
-                            const firstName = userMetadata.first_name || currentUser.email.split('@')[0];
-                            document.getElementById('userName').textContent = firstName;
-                            document.getElementById('welcomeName').textContent = firstName;
-                            document.getElementById('userAvatar').textContent = firstName.charAt(0).toUpperCase();
-                            return;
+                        if (!insertError && newProfile) {
+                            data = newProfile;
                         }
-                        
-                        // Use newly created profile
-                        data = newProfile;
-                    } else {
-                        throw error;
                     }
                 }
 
-                if (data) {
-                    const firstName = data.first_name || 'User';
-                    const plan = data.subscription_plan || 'free';
-                    
-                    console.log('Profile data loaded:', data);
-                    console.log('Subscription plan from database:', data.subscription_plan);
-                    console.log('Plan variable:', plan);
-                    
-                    document.getElementById('userName').textContent = firstName;
-                    document.getElementById('welcomeName').textContent = firstName;
-                    document.getElementById('userAvatar').textContent = firstName.charAt(0).toUpperCase();
-                    
-                    // Update subscription banner based on plan
-                    console.log('Calling updateSubscriptionBanner with:', plan);
-                    updateSubscriptionBanner(plan);
-                }
+                // Display user info
+                const firstName = data?.first_name || currentUser.email.split('@')[0];
+                document.getElementById('userName').textContent = firstName;
+                document.getElementById('welcomeName').textContent = firstName;
+                document.getElementById('userAvatar').textContent = firstName.charAt(0).toUpperCase();
+
             } catch (error) {
                 console.error('Error loading user data:', error);
-                // Fallback to email username
+                // Fallback to email
                 const fallbackName = currentUser.email.split('@')[0];
                 document.getElementById('userName').textContent = fallbackName;
                 document.getElementById('welcomeName').textContent = fallbackName;
                 document.getElementById('userAvatar').textContent = fallbackName.charAt(0).toUpperCase();
-                updateSubscriptionBanner('free');
-            }
-        }
-
-        // Update subscription banner based on plan
-        function updateSubscriptionBanner(plan) {
-            console.log('updateSubscriptionBanner called with plan:', plan);
-            
-            const planName = document.getElementById('planName');
-            const planDetails = document.getElementById('planDetails');
-            const upgradeBtn = document.querySelector('#subscriptionBanner .btn');
-            
-            console.log('planName element:', planName);
-            console.log('planDetails element:', planDetails);
-            console.log('upgradeBtn element:', upgradeBtn);
-            
-            const planInfo = {
-                free: {
-                    name: 'Free Trial',
-                    details: 'You have 3 free clips remaining this month',
-                    showUpgrade: true
-                },
-                basic: {
-                    name: 'Basic Plan',
-                    details: '48 clips per month - Unlimited submissions',
-                    showUpgrade: true
-                },
-                pro: {
-                    name: 'Pro Plan',
-                    details: '48 clips per month + Custom branding + Direct scheduling',
-                    showUpgrade: false
-                },
-                plus: {
-                    name: 'Plus Plan',
-                    details: '48 clips per month + Premium service + Free revisions',
-                    showUpgrade: false
-                }
-            };
-            
-            const info = planInfo[plan] || planInfo.free;
-            console.log('Plan info to display:', info);
-            
-            planName.textContent = info.name;
-            planDetails.textContent = info.details;
-            
-            console.log('Set planName to:', info.name);
-            console.log('Set planDetails to:', info.details);
-            
-            if (!info.showUpgrade) {
-                upgradeBtn.style.display = 'none';
-                console.log('Hiding upgrade button');
-            } else {
-                upgradeBtn.style.display = 'inline-block';
-                console.log('Showing upgrade button');
             }
         }
 
@@ -521,7 +412,7 @@
 
                 // Update stats
                 document.getElementById('totalSubmissions').textContent = data.length;
-                document.getElementById('totalClips').textContent = data.length * 12; // Assuming 12 clips per submission
+                document.getElementById('totalClips').textContent = data.length * 12;
 
                 // Calculate this month's submissions
                 const now = new Date();
@@ -540,7 +431,7 @@
             }
         }
 
-        // Display submissions in table
+        // Display submissions
         function displaySubmissions(submissions) {
             const content = document.getElementById('submissionsContent');
             
@@ -552,7 +443,6 @@
                             <th>Scripture</th>
                             <th>Platforms</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -570,7 +460,6 @@
                         <td>${scripture}</td>
                         <td>${platforms}</td>
                         <td><span class="status-badge status-${status}">${status}</span></td>
-                        <td><a href="#" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">View</a></td>
                     </tr>
                 `;
             });
@@ -583,13 +472,13 @@
             content.innerHTML = tableHTML;
         }
 
-        // Logout function
+        // Logout
         async function logout() {
             await supabaseClient.auth.signOut();
             window.location.href = 'login.html';
         }
 
-        // Initialize on page load
+        // Initialize
         checkAuth();
     </script>
 </body>
