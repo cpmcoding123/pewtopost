@@ -390,7 +390,42 @@
                     .eq('user_id', currentUser.id)
                     .single();
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    
+                    // If profile doesn't exist, create it from auth metadata
+                    if (error.code === 'PGRST116') {
+                        console.log('Profile not found, creating one...');
+                        const userMetadata = currentUser.user_metadata || {};
+                        
+                        const { data: newProfile, error: insertError } = await supabaseClient
+                            .from('profiles')
+                            .insert([{
+                                user_id: currentUser.id,
+                                first_name: userMetadata.first_name || 'User',
+                                last_name: userMetadata.last_name || '',
+                                church_name: userMetadata.church_name || '',
+                                email: currentUser.email
+                            }])
+                            .select()
+                            .single();
+                        
+                        if (insertError) {
+                            console.error('Error creating profile:', insertError);
+                            // Use fallback data from auth
+                            const firstName = userMetadata.first_name || currentUser.email.split('@')[0];
+                            document.getElementById('userName').textContent = firstName;
+                            document.getElementById('welcomeName').textContent = firstName;
+                            document.getElementById('userAvatar').textContent = firstName.charAt(0).toUpperCase();
+                            return;
+                        }
+                        
+                        // Use newly created profile
+                        data = newProfile;
+                    } else {
+                        throw error;
+                    }
+                }
 
                 if (data) {
                     const firstName = data.first_name || 'User';
@@ -400,6 +435,11 @@
                 }
             } catch (error) {
                 console.error('Error loading user data:', error);
+                // Fallback to email username
+                const fallbackName = currentUser.email.split('@')[0];
+                document.getElementById('userName').textContent = fallbackName;
+                document.getElementById('welcomeName').textContent = fallbackName;
+                document.getElementById('userAvatar').textContent = fallbackName.charAt(0).toUpperCase();
             }
         }
 
