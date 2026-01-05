@@ -957,7 +957,7 @@
                         <li>48h delivery guarantee</li>
                         <li>Priority email support</li>
                     </ul>
-                    <a href="signup.html?plan=basic" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Basic</a>
+                    <a href="https://buy.stripe.com/test_dRm00j7Yr4PTc9y2uafYY00" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Basic</a>
                 </div>
 
                 <!-- Pro Plan -->
@@ -973,7 +973,7 @@
                         <li>Phone & chat support</li>
                         <li>Monthly analytics report</li>
                     </ul>
-                    <a href="signup.html?plan=pro" class="btn btn-primary" style="width: 100%; text-align: center;">Choose Pro</a>
+                    <a href="https://buy.stripe.com/test_4gM28r5Qjfux4H65GmfYY01" class="btn btn-primary" style="width: 100%; text-align: center;">Choose Pro</a>
                 </div>
 
                 <!-- Plus Plan -->
@@ -989,7 +989,7 @@
                         <li>Same-day delivery</li>
                         <li>White-glove setup</li>
                     </ul>
-                    <a href="signup.html?plan=plus" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Plus</a>
+                    <a href="https://buy.stripe.com/test_5kQaEX92v2HL5La8SyfYY02" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Plus</a>
                 </div>
             </div>
         </div>
@@ -1035,62 +1035,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Stripe Checkout Integration -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="config.js"></script>
-    <script>
-        // Initialize Stripe with your publishable key
-        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-
-        // Function to start Stripe Checkout
-        async function startCheckout(plan) {
-            // Check if STRIPE_PRICE_IDS is defined in config.js
-            if (typeof STRIPE_PRICE_IDS === 'undefined') {
-                alert('Payment configuration missing. Please contact support.');
-                console.error('STRIPE_PRICE_IDS not found in config.js');
-                return;
-            }
-
-            const priceId = STRIPE_PRICE_IDS[plan];
-
-            // Check if Price ID is configured
-            if (!priceId || priceId.startsWith('price_REPLACE') || priceId === 'price_YOUR') {
-                alert('Payment system is being configured. Please contact us directly to sign up!');
-                console.error('Stripe Price ID not configured for plan:', plan);
-                return;
-            }
-
-            // Show loading state
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Loading...';
-            button.disabled = true;
-
-            try {
-                // Redirect to Stripe Checkout
-                const { error } = await stripe.redirectToCheckout({
-                    lineItems: [{ price: priceId, quantity: 1 }],
-                    mode: 'subscription',
-                    successUrl: window.location.origin + '/dashboard.html?success=true&plan=' + plan,
-                    cancelUrl: window.location.origin + '/index.html#pricing',
-                });
-
-                if (error) {
-                    // Show error to user
-                    alert('Payment error: ' + error.message);
-                    console.error('Stripe error:', error);
-                }
-            } catch (err) {
-                console.error('Checkout error:', err);
-                alert('Unable to start checkout. Please try again or contact support.');
-            } finally {
-                // Reset button state
-                button.textContent = originalText;
-                button.disabled = false;
-            }
-        }
-    </script>
 
     <script>
         // Smooth scroll for navigation links
