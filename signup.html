@@ -350,6 +350,8 @@
                 // Create profile in database
                 if (authData.user) {
                     console.log('Creating profile for user:', authData.user.id);
+                    console.log('Selected plan from URL:', selectedPlan);
+                    console.log('Plan to save:', selectedPlan || 'free');
                     
                     const { data: profileData, error: profileError } = await supabaseClient
                         .from('profiles')
@@ -360,6 +362,7 @@
                                 last_name: lastName,
                                 church_name: churchName,
                                 email: email,
+                                subscription_plan: selectedPlan || 'free'  // Save the plan!
                             }
                         ])
                         .select();
@@ -370,6 +373,7 @@
                     }
                     
                     console.log('Profile created successfully:', profileData);
+                    console.log('Saved subscription_plan:', profileData[0]?.subscription_plan);
                 }
 
                 // CRITICAL: Immediately sign in the user to create a persistent session
