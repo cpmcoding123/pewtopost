@@ -405,7 +405,8 @@
                                 first_name: userMetadata.first_name || 'User',
                                 last_name: userMetadata.last_name || '',
                                 church_name: userMetadata.church_name || '',
-                                email: currentUser.email
+                                email: currentUser.email,
+                                subscription_plan: 'free'
                             }])
                             .select()
                             .single();
@@ -429,9 +430,19 @@
 
                 if (data) {
                     const firstName = data.first_name || 'User';
+                    const plan = data.subscription_plan || 'free';
+                    
+                    console.log('Profile data loaded:', data);
+                    console.log('Subscription plan from database:', data.subscription_plan);
+                    console.log('Plan variable:', plan);
+                    
                     document.getElementById('userName').textContent = firstName;
                     document.getElementById('welcomeName').textContent = firstName;
                     document.getElementById('userAvatar').textContent = firstName.charAt(0).toUpperCase();
+                    
+                    // Update subscription banner based on plan
+                    console.log('Calling updateSubscriptionBanner with:', plan);
+                    updateSubscriptionBanner(plan);
                 }
             } catch (error) {
                 console.error('Error loading user data:', error);
@@ -440,6 +451,60 @@
                 document.getElementById('userName').textContent = fallbackName;
                 document.getElementById('welcomeName').textContent = fallbackName;
                 document.getElementById('userAvatar').textContent = fallbackName.charAt(0).toUpperCase();
+                updateSubscriptionBanner('free');
+            }
+        }
+
+        // Update subscription banner based on plan
+        function updateSubscriptionBanner(plan) {
+            console.log('updateSubscriptionBanner called with plan:', plan);
+            
+            const planName = document.getElementById('planName');
+            const planDetails = document.getElementById('planDetails');
+            const upgradeBtn = document.querySelector('#subscriptionBanner .btn');
+            
+            console.log('planName element:', planName);
+            console.log('planDetails element:', planDetails);
+            console.log('upgradeBtn element:', upgradeBtn);
+            
+            const planInfo = {
+                free: {
+                    name: 'Free Trial',
+                    details: 'You have 3 free clips remaining this month',
+                    showUpgrade: true
+                },
+                basic: {
+                    name: 'Basic Plan',
+                    details: '48 clips per month - Unlimited submissions',
+                    showUpgrade: true
+                },
+                pro: {
+                    name: 'Pro Plan',
+                    details: '48 clips per month + Custom branding + Direct scheduling',
+                    showUpgrade: false
+                },
+                plus: {
+                    name: 'Plus Plan',
+                    details: '48 clips per month + Premium service + Free revisions',
+                    showUpgrade: false
+                }
+            };
+            
+            const info = planInfo[plan] || planInfo.free;
+            console.log('Plan info to display:', info);
+            
+            planName.textContent = info.name;
+            planDetails.textContent = info.details;
+            
+            console.log('Set planName to:', info.name);
+            console.log('Set planDetails to:', info.details);
+            
+            if (!info.showUpgrade) {
+                upgradeBtn.style.display = 'none';
+                console.log('Hiding upgrade button');
+            } else {
+                upgradeBtn.style.display = 'inline-block';
+                console.log('Showing upgrade button');
             }
         }
 
