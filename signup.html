@@ -349,7 +349,9 @@
 
                 // Create profile in database
                 if (authData.user) {
-                    const { error: profileError } = await supabaseClient
+                    console.log('Creating profile for user:', authData.user.id);
+                    
+                    const { data: profileData, error: profileError } = await supabaseClient
                         .from('profiles')
                         .insert([
                             {
@@ -359,11 +361,15 @@
                                 church_name: churchName,
                                 email: email,
                             }
-                        ]);
+                        ])
+                        .select();
 
                     if (profileError) {
                         console.error('Profile creation error:', profileError);
+                        throw new Error('Failed to create profile: ' + profileError.message);
                     }
+                    
+                    console.log('Profile created successfully:', profileData);
                 }
 
                 // CRITICAL: Immediately sign in the user to create a persistent session
@@ -381,9 +387,12 @@
 
                 console.log('User signed in:', signInData?.user?.email);
                 console.log('Session created:', !!signInData?.session);
+                console.log('Selected plan:', selectedPlan);
+                console.log('Payment link:', STRIPE_PAYMENT_LINKS[selectedPlan]);
 
                 // Check if they selected a plan
                 if (selectedPlan && STRIPE_PAYMENT_LINKS[selectedPlan]) {
+                    console.log('Redirecting to Stripe for plan:', selectedPlan);
                     // Redirect to Stripe payment
                     showAlert('Account created! Redirecting to payment...', 'success');
                     signupBtn.textContent = 'Redirecting to payment...';
@@ -392,6 +401,7 @@
                         window.location.href = STRIPE_PAYMENT_LINKS[selectedPlan];
                     }, 2000);
                 } else {
+                    console.log('No plan selected, going to dashboard');
                     // No plan selected, go to dashboard
                     showAlert('Account created successfully!', 'success');
                     setTimeout(() => {
