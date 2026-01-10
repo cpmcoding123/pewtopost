@@ -858,7 +858,7 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <span class="stat-number">500+</span>
-                    <span class="stat-label">Videos Edited</span>
+                    <span class="stat-label">Churches Served</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">12</span>
@@ -879,7 +879,7 @@
                 <h2 class="section-title">Our Mission</h2>
                 <p class="mission-text">Every Sunday, thousands of powerful sermons are preached across the country. But most of that wisdom stays within the church walls. We believe every sermon has the potential to impact lives far beyond the sanctuary.</p>
                 <p class="mission-text">PewToPost was born from a simple idea: What if we could help pastors share their most impactful moments with the world, without adding to their already full plates?</p>
-                <p class="mission-text">Today, we've helped multiple ministries reach millions of people with life-changing content, transforming how ministries connect with their communities in the digital age.</p>
+                <p class="mission-text">Today, we've helped over 500 churches reach millions of people with life-changing content, transforming how ministries connect with their communities in the digital age.</p>
             </div>
         </div>
     </section>
@@ -943,13 +943,29 @@
     <section id="pricing" class="pricing">
         <div class="container">
             <h2 class="section-title" style="text-align: center;">Choose Your Plan</h2>
-            <p style="text-align: center; color: var(--gray); font-size: 1.2rem; margin-bottom: 1rem;">Flexible pricing for churches of all sizes</p>
+            <p style="text-align: center; color: var(--gray); font-size: 1.2rem; margin-bottom: 2rem;">Flexible pricing for churches of all sizes</p>
+            
+            <!-- Billing Toggle -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <div style="display: inline-flex; background: var(--light); padding: 0.5rem; border-radius: 50px; gap: 0.5rem;">
+                    <button id="monthlyBtn" class="billing-toggle active" onclick="showMonthly()">Monthly</button>
+                    <button id="annualBtn" class="billing-toggle" onclick="showAnnual()">
+                        Annual 
+                        <span style="background: var(--accent); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">Save 17%</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="pricing-grid">
                 <!-- Basic Plan -->
                 <div class="pricing-card">
                     <h3 class="plan-name">Basic</h3>
-                    <div class="plan-price">$299<span>/mo</span></div>
+                    <div class="plan-price">
+                        <span class="monthly-price">$299<span>/mo</span></span>
+                        <span class="annual-price" style="display: none;">$2,990<span>/year</span></span>
+                    </div>
                     <p class="plan-description">Consistent weekly content for growing churches</p>
+                    <p class="annual-savings" style="display: none; color: var(--accent); font-weight: 600; margin-top: 0.5rem;">Save $598/year</p>
                     <ul class="plan-features">
                         <li>12 clips weekly (48/month)</li>
                         <li>Professional captions</li>
@@ -957,14 +973,19 @@
                         <li>48h delivery guarantee</li>
                         <li>Priority email support</li>
                     </ul>
-                    <a href="https://buy.stripe.com/6oU28r93sbI54mPaQvdby02" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Basic</a>
+                    <a href="https://buy.stripe.com/6oU28r93sbI54mPaQvdby02" class="btn btn-secondary monthly-link" style="width: 100%; text-align: center;">Choose Basic</a>
+                    <a href="https://buy.stripe.com/7sY6oH5RgfYl1aD5wbdby03" class="btn btn-secondary annual-link" style="width: 100%; text-align: center; display: none;">Choose Basic Annual</a>
                 </div>
 
                 <!-- Pro Plan -->
                 <div class="pricing-card popular">
                     <h3 class="plan-name">Pro</h3>
-                    <div class="plan-price">$449<span>/mo</span></div>
+                    <div class="plan-price">
+                        <span class="monthly-price">$449<span>/mo</span></span>
+                        <span class="annual-price" style="display: none;">$4,490<span>/year</span></span>
+                    </div>
                     <p class="plan-description">Everything in Basic plus branding & automation</p>
+                    <p class="annual-savings" style="display: none; color: var(--accent); font-weight: 600; margin-top: 0.5rem;">Save $898/year</p>
                     <ul class="plan-features">
                         <li>Everything in Basic</li>
                         <li>Custom branding & styling</li>
@@ -973,14 +994,19 @@
                         <li>Phone & chat support</li>
                         <li>Monthly analytics report</li>
                     </ul>
-                    <a href="https://buy.stripe.com/aFaeVd7Zo7rP3iL2jZdby01" class="btn btn-primary" style="width: 100%; text-align: center;">Choose Pro</a>
+                    <a href="https://buy.stripe.com/aFaeVd7Zo7rP3iL2jZdby01" class="btn btn-primary monthly-link" style="width: 100%; text-align: center;">Choose Pro</a>
+                    <a href="https://buy.stripe.com/cNifZhcfEeUhaLd5wbdby04" class="btn btn-primary annual-link" style="width: 100%; text-align: center; display: none;">Choose Pro Annual</a>
                 </div>
 
                 <!-- Plus Plan -->
                 <div class="pricing-card">
                     <h3 class="plan-name">Plus</h3>
-                    <div class="plan-price">$649<span>/mo</span></div>
+                    <div class="plan-price">
+                        <span class="monthly-price">$649<span>/mo</span></span>
+                        <span class="annual-price" style="display: none;">$6,490<span>/year</span></span>
+                    </div>
                     <p class="plan-description">Premium service with full customization</p>
+                    <p class="annual-savings" style="display: none; color: var(--accent); font-weight: 600; margin-top: 0.5rem;">Save $1,298/year</p>
                     <ul class="plan-features">
                         <li>Everything in Pro</li>
                         <li>Free revisions included</li>
@@ -989,11 +1015,66 @@
                         <li>Same-day delivery</li>
                         <li>White-glove setup</li>
                     </ul>
-                    <a href="https://buy.stripe.com/14AcN593s7rP2eH9Mrdby00" class="btn btn-secondary" style="width: 100%; text-align: center;">Choose Plus</a>
+                    <a href="https://buy.stripe.com/14AcN593s7rP2eH9Mrdby00" class="btn btn-secondary monthly-link" style="width: 100%; text-align: center;">Choose Plus</a>
+                    <a href="https://buy.stripe.com/dRm4gz6Vk27v2eHf6Ldby05" class="btn btn-secondary annual-link" style="width: 100%; text-align: center; display: none;">Choose Plus Annual</a>
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .billing-toggle {
+            padding: 0.75rem 2rem;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .billing-toggle.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .billing-toggle:hover {
+            opacity: 0.8;
+        }
+    </style>
+
+    <script>
+        function showMonthly() {
+            // Toggle buttons
+            document.getElementById('monthlyBtn').classList.add('active');
+            document.getElementById('annualBtn').classList.remove('active');
+            
+            // Show monthly prices and links
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.monthly-link').forEach(el => el.style.display = 'inline-block');
+            
+            // Hide annual prices and links
+            document.querySelectorAll('.annual-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.annual-link').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.annual-savings').forEach(el => el.style.display = 'none');
+        }
+
+        function showAnnual() {
+            // Toggle buttons
+            document.getElementById('monthlyBtn').classList.remove('active');
+            document.getElementById('annualBtn').classList.add('active');
+            
+            // Hide monthly prices and links
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.monthly-link').forEach(el => el.style.display = 'none');
+            
+            // Show annual prices and links
+            document.querySelectorAll('.annual-price').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.annual-link').forEach(el => el.style.display = 'inline-block');
+            document.querySelectorAll('.annual-savings').forEach(el => el.style.display = 'block');
+        }
+    </script>
 
     <!-- Footer -->
     <footer id="contact">
